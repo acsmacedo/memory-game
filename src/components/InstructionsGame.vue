@@ -24,6 +24,6 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #CFCEF2;
+    background-color: var(--background);
   }
 </style>

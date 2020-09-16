@@ -44,13 +44,13 @@
       border: none;
       outline: none;
       width: 100%;
-      border-bottom: 0.0625rem solid #35328C;
+      border-bottom: 0.0625rem solid var(--color);
       text-align: center;
       margin-bottom: 1rem;
       padding-bottom: 0.5rem;
       font-size: 1em;
       &::placeholder {
-        color: #9592EC;
+        color: var(--disabled);
       }
     }
 
@@ -68,7 +68,7 @@
     }
     
     button {
-      background-color: #35328C;
+      background-color: var(--color);
       border: none;
       outline: none;
       border-radius: 1000rem;
@@ -95,8 +95,8 @@
         display: block;
       }
       &:checked {
-        border: 0.0625rem solid #35328C;
-        background: #35328C;
+        border: 0.0625rem solid var(--color);
+        background: var(--color);
       }
       &:not(.switch) {
         width: 16px;
@@ -116,7 +116,7 @@
       &:after {
         width: 16px;
         height: 16px;
-        background: #35328C;
+        background: var(--color);
         border-radius: 1000rem;
         position: relative;
         top: calc(50% - (16px / 2));

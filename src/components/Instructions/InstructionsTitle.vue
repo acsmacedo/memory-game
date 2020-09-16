@@ -1,7 +1,7 @@
 <template>
   <div class="instructions__title">
     <h1>Jogo da memória</h1>
-    <p>Monstrinhos divertidos e coloridos para você se divertir, enquanto exercita seu cérebro com este incrível jogo da memória!</p>
+    <p>Monstrinhos coloridos para se divertir, enquanto você exercita seu cérebro com este jogo da memória!</p>
   </div>
 </template>
 
@@ -20,6 +20,9 @@
       font-size: 2.5em;
       font-weight: 800;
       margin-bottom: 1rem;
+    }
+    p {
+      line-height: 1.35em;
     }
   }
 </style>

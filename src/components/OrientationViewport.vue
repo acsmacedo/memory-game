@@ -20,7 +20,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #CFCEF2;
+    background-color: var(--background);
     z-index: 100;
     padding: 2rem;
     display: flex;
