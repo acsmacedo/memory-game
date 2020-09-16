@@ -1,13 +1,16 @@
 <template>
   <section class="orientation">
-    <h1>Coloque o dispositivo na posição paisagem</h1>
+    <div>
+      <i class="las la-mobile"></i>
+      <h1>Coloque o dispositivo na posição paisagem!</h1>
+    </div>
   </section>
 </template>
 
 <script>
-export default {
-  name: 'OrientationViewport'
-}
+  export default {
+    name: 'OrientationViewport'
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -17,8 +20,20 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #CCC;
+    background-color: #CFCEF2;
     z-index: 100;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    i {
+      font-size: 8em;
+      transform: rotate(-90deg);
+    }
+    h1 {
+      margin-bottom: 2rem;
+    }
     @media (orientation: landscape) {
       display: none;
     }

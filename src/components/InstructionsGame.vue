@@ -1,34 +1,29 @@
 <template>
   <section class="instructions">
     <InstructionsTitle />
-    
     <InstructionsForm />
-    
-    <InstructionsRanking />
   </section>
 </template>
 
 <script>
 import InstructionsTitle from './Instructions/InstructionsTitle'
 import InstructionsForm from './Instructions/InstructionsForm'
-import InstructionsRanking from './Instructions/InstructionsRanking'
 
 export default {
   name: 'InstructionsGame',
   components: {
     InstructionsTitle,
-    InstructionsForm,
-    InstructionsRanking
+    InstructionsForm
   }
 }
 </script>
 
 <style lang="scss" scoped>
   .instructions {
-    min-height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #EFEFEF;
+    background-color: #CFCEF2;
   }
 </style>
