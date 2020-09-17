@@ -94,6 +94,7 @@
 
   a {
     text-decoration: none;
+    outline: none;
   }
 
   button {
@@ -106,6 +107,9 @@
     background-color: transparent;
     border: none;
     outline: none;
+    &::placeholder {
+      opacity: 1;
+    }
   }
 
   input[type="radio"] {

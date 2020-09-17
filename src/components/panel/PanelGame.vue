@@ -98,10 +98,12 @@
       &.invert img {
         transform: rotateY(360deg);
         transition: transform 0.6s;
+        z-index: 10;
       }
       &.invert span {
         transform: rotateY(180deg);
         transition: transform 0.6s;
+        z-index: 5;
       }
     }
     span {
@@ -116,6 +118,7 @@
       transform: rotateY(360deg);
       transition: transform 0.6s;
       background-color: var(--disabled);
+      z-index: 10;
       i {
         font-size: 2.5em;
         margin-left: 0.1em;
@@ -133,6 +136,8 @@
       backface-visibility: hidden;
       transform: rotateY(180deg);
       transition: transform 0.6s;
+      overflow: hidden;
+      z-index: 5;
     }
   }
 </style>

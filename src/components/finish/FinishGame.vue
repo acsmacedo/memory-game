@@ -1,7 +1,7 @@
 <template>
   <section class="finish">
     <h1>Parabéns, você terminou o jogo!</h1>
-    <p>Seu tempo foi de {{ timeMinutes(currentGame.time) }}</p>
+    <p>Seu tempo foi de {{ timeMinutes(ranking[ranking.length - 1].time) }}</p>
   </section>
 </template>
 
@@ -11,7 +11,7 @@
   export default {
     name: 'FinishGame',
     computed: {
-      ...mapState(['currentGame'])
+      ...mapState(['ranking'])
     },
     methods: {
       timeMinutes(value) {
@@ -36,7 +36,7 @@
 <style lang="scss" scoped>
   .finish {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background-color: var(--color);
     position: absolute;
     top: 0;

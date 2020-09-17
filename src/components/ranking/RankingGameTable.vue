@@ -13,12 +13,10 @@
         <td>{{item.user}}</td>
         <td>{{ timeMinutes(item.time) }}</td>
       </tr>
-    </tbody>
-    <tfoot v-if="table.length === 0">
-      <tr>
+      <tr v-if="table.length === 0" style="text-align:center">
         <td colspan="3">Sem record</td>
       </tr>
-    </tfoot>
+    </tbody>
   </table>
 </template>
 
@@ -57,9 +55,6 @@
     }
     td {
       padding: 0.25rem 1rem;
-    }
-    tfoot tr td {
-      text-align: center;
     }
   }
 </style>

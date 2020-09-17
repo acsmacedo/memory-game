@@ -29,6 +29,7 @@ export default new Vuex.Store({
   },
   mutations: {
     startGame(state) {
+      state.currentGame.time = 0;
       state.gameOn = setInterval(() => { state.currentGame.time++ }, 1000);
     },
     currentGameChange(state, e) {

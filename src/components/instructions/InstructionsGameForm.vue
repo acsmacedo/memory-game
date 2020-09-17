@@ -73,7 +73,7 @@
       button, a { 
         border: 0.0625rem solid var(--color);
         border-radius: 1000rem;
-        padding: 0.5rem 1.5rem 0.75rem 1.5rem;
+        padding: 0.5rem 1.5rem 0.6rem 1.5rem;
         font-size: 0.8em;
         font-weight: 800;
       }
