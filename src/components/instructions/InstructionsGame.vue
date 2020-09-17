@@ -1,19 +1,19 @@
 <template>
   <section class="instructions">
-    <InstructionsTitle />
-    <InstructionsForm />
+    <InstructionsGameTitle />
+    <InstructionsGameForm />
   </section>
 </template>
 
 <script>
-import InstructionsTitle from './Instructions/InstructionsTitle'
-import InstructionsForm from './Instructions/InstructionsForm'
+import InstructionsGameTitle from './InstructionsGameTitle'
+import InstructionsGameForm from './InstructionsGameForm'
 
 export default {
   name: 'InstructionsGame',
   components: {
-    InstructionsTitle,
-    InstructionsForm
+    InstructionsGameTitle,
+    InstructionsGameForm
   }
 }
 </script>

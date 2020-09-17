@@ -14,9 +14,24 @@ export default new Vuex.Store({
     validation: {
       firstElement: '',
       lastElement: '',
-      correct: []
+      finish: false
     },
-    ranking: []
+    ranking: [
+      /*
+      {user: 'dffsd', level: 'easy', time: 25},
+      
+      {user: 'dffsdfsd', level: 'regular', time: 80},
+      {user: 'dfsfsdfd', level: 'regular', time: 120},
+      {user: 'dfvxcvxcsd', level: 'easy', time: 2665},
+  
+      {user: 'dffsd', level: 'easy', time: 55},
+
+      {user: 'dffsdfsd', level: 'regular', time: 158},
+      {user: 'dfsfsdfd', level: 'regular', time: 1258},
+      {user: 'dfvxcvxcsd', level: 'easy', time: 85},
+      */
+    ],
+    rankingView: 'easy'
   },
   getters: {
     timeMinutes(state) {
@@ -30,6 +45,12 @@ export default new Vuex.Store({
       const h1 = h != 0 ? `${h}h ` : h > 0  && h < 10 ? `0${h}h ` : h >= 10 ? `${h}h ` : '';
   
       return `${h1}${m1}${s1}`;
+    },
+    rankingViewTable(state) {
+      const table = [...state.ranking];
+      const tableLevel = table.filter( item => item.level === state.rankingView);
+      const tableSort = tableLevel.sort((a,b) => (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0));
+      return tableSort.filter((item, i) => i < 3);
     }
   },
   mutations: {
@@ -45,12 +66,14 @@ export default new Vuex.Store({
       }, 1000)
     },
     validationChange(state, e) {
-      const cond1 =  e.target.tagName === 'SPAN';
-      const cond2 = e.target.tagName === 'I';
+      const isSpan =  e.target.tagName === 'SPAN';
+      const isIcon = e.target.tagName === 'I';
+
       const div = e.target.lastElementChild;
       const span = e.target.nextElementSibling;
-      const i = e.target.parentElement.nextElementSibling;
-      const el = cond1 ? span : cond2 ? i : div;
+      const icon = e.target.parentElement.nextElementSibling;
+
+      const el = isSpan ? span : isIcon ? icon : div;
   
       if (state.validation.firstElement === '') {
         state.validation.firstElement = el.className;
@@ -63,47 +86,53 @@ export default new Vuex.Store({
         const first = document.querySelectorAll(`.${state.validation.firstElement}`);
         const last = document.querySelectorAll(`.${state.validation.lastElement}`);
         const quantity = state.currentGame.level === 'easy' ? 16 : state.currentGame.level === 'regular' ? 20 : 24;
+        const correct = document.querySelectorAll('.invert').length;
 
         if (state.validation.firstElement === state.validation.lastElement) {
           first.forEach( el => {
             el.addEventListener('click', ev => ev.stopPropagation());
-            state.validation.correct.push(state.validation.firstElement);
-            
             document.body.classList.add('bingo');
             setTimeout(() => { document.body.classList.remove('bingo')}, 100);
-            
-            if (state.validation.correct.length === quantity) { 
-              const msg = document.querySelector('.finish');
-
-              clearInterval(state.gameOn);
-
-              state.ranking.push({ user: state.currentGame.user, time: state.currentGame.time, level: state.currentGame.level });
-
-              setTimeout(() => {
-                msg.style.display = 'flex';
-              }, 1000)
-
-              setTimeout(() => {
-                msg.style.display = 'none';
-                state.gameOn = false;
-                state.currentGame.time = 0;
-                state.correct = [];
-              }, 4500)
-            }
           })
+
+          if (correct === quantity) { 
+            clearInterval(state.gameOn);
+            state.ranking.push({ user: state.currentGame.user, time: state.currentGame.time, level: state.currentGame.level });
+            state.validation.finish = true;
+            console.log(state);
+          }
+
         } else {
           setTimeout(() => {
             first.forEach( el => el.parentElement.classList.remove('invert'));
             last.forEach( el => el.parentElement.classList.remove('invert'));
-          }, 1000)
+          }, 700)
         }
 
         state.validation.firstElement = '';
         state.validation.lastElement = '';
       }
     },
+    rankingViewChange(state, ev) {
+      state.rankingView = ev.target.value;
+    },
+    rankingViewReset(state) {
+      state.rankingView = 'easy';
+    },
+    rankingClear(state) {
+      state.ranking = []
+    },
+    resetFinish(state) {
+      state.validation.finish = false;
+    },
     loadRanking(state, ranking) {
       state.ranking = ranking;
+    },
+    loadUser(state, user) {
+      state.currentGame.user = user;
+    },
+    loadLevel(state, level) {
+      state.currentGame.level = level;
     }
   }
 })

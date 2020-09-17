@@ -2,84 +2,25 @@
   <div id="app">
     <OrientationViewport />
     <transition name="transition" mode="out-in">
-      <InstructionsGame v-if="!gameOn" />
+      <router-view />
     </transition>
-    <PanelGame />
-    <FinishGame />
   </div>
 </template>
 
 <script>
-  import OrientationViewport from './components/OrientationViewport'
-  import PanelGame from './components/PanelGame'
-  import InstructionsGame from './components/InstructionsGame'
-  import FinishGame from './components/FinishGame'
+  import OrientationViewport from './components/orientation/OrientationViewport'
   import { mapMutations, mapState } from 'vuex'
 
   export default {
     name: 'App',
     components: {
-      OrientationViewport,
-      PanelGame,
-      InstructionsGame, 
-      FinishGame
+      OrientationViewport
     },
     computed: {
-      ...mapState(['gameOn', 'ranking', 'currentGame'])
+      ...mapState(['ranking', 'currentGame'])
     },
     methods: {
-      ...mapMutations(['loadRanking', 'validationChange', 'validationCompare']),
-      insertImages() {
-        const level = this.currentGame.level;
-        const quantity = level === 'easy' ? 8 : level === 'regular' ? 10 : 12;
-        const images = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16]];
-        const divTemp = document.createElement('div');
-        const container = document.querySelector('.panel');
-
-        for (let i = 0; i < quantity; i++) {
-          const imgEl = document.createElement('img');
-          const spanEl = document.createElement('span');
-          const divEl = document.createElement('div');
-          const color = (i + 1) % 4;
-          const random = Math.floor(Math.random() * (images[color].length - 0) ) + 0;
-          const img = images[color][random];
-
-          images[color].splice(random, 1);
-          imgEl.setAttribute('src', `/monster-${img}.jpg`);
-          imgEl.classList.add(`monster-${img}`);
-          spanEl.innerHTML = '<i class="las la-question"></i>';
-          divEl.appendChild(spanEl);
-          divEl.appendChild(imgEl);
-
-          const divElClone = divEl.cloneNode(true);
-          divTemp.appendChild(divEl);
-          divTemp.appendChild(divElClone);
-        }
-        
-        for (let i = 0; i < divTemp.children.length;) {
-          const random = Math.floor(Math.random() * (divTemp.children.length - 0) ) + 0;
-          const divEl = divTemp.removeChild(divTemp.children[random]);
-          container.appendChild(divEl);
-        }
-
-        const img = document.querySelectorAll('img');
-
-        img.forEach(el => {
-          el.addEventListener('click', ev => {
-            ev.stopPropagation();
-          })
-
-          el.parentElement.addEventListener('click', ev => {
-            el.parentElement.classList.toggle('invert');
-            this.validationChange(ev);
-            this.validationCompare(ev);
-          })
-        })
-      },
-      removeImages() {
-        const container = document.querySelector('.panel');
-        container.innerHTML = '';
-      }
+      ...mapMutations(['loadRanking', 'loadUser', 'loadLevel'])
     },
     watch: {
       ranking: {
@@ -89,19 +30,12 @@
         },
         deep: true
       },
-      gameOn() {
-        const panel = document.querySelector('.panel');
-        if (this.gameOn) {
-          this.insertImages();
-          setTimeout(() => {
-            panel.style.display = 'flex';
-            panel.style.opacity = 1;
-          }, 600)
-        } else {
-          this.removeImages();
-          panel.style.display = 'none';
-          panel.style.opacity = 0;
-        }
+      currentGame: {
+        handler: function (newValue) { 
+          window.localStorage.setItem('user', newValue.user);
+          window.localStorage.setItem('level', newValue.level);
+        },
+        deep: true
       }
     },
     created() {
@@ -109,6 +43,14 @@
         const json = window.localStorage.getItem('ranking');
         const ranking = JSON.parse(json);
         this.loadRanking(ranking);
+      }
+      if (window.localStorage.getItem('user')) {
+        const user = window.localStorage.getItem('user');
+        this.loadUser(user);
+      }
+      if (window.localStorage.getItem('level')) {
+        const level = window.localStorage.getItem('level');
+        this.loadLevel(level);
       }
     }
   }
@@ -148,6 +90,65 @@
   ul, li {
     padding: 0;
     list-style: none;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+  }
+
+  input[type="text"] {
+    background-color: transparent;
+    border: none;
+    outline: none;
+  }
+
+  input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    height: 16px;
+    border: 0.0625rem solid #FFFFFF;
+    border-radius: 1000rem;
+    background: #FFFFFF;
+    margin: 0;
+    margin-right: 0.5rem;
+    outline: none;
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+    &:after {
+      content: "";
+      display: block;
+      width: 16px;
+      height: 16px;
+      background: var(--color);
+      border-radius: 1000rem;
+      position: relative;
+      top: calc(50% - (16px / 2));
+      left: calc(50% - (16px / 2));
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    &:checked {
+      border: 0.0625rem solid var(--color);
+      background: var(--color);
+    }
+    &:not(.switch) {
+      width: 16px;
+      &:after {
+        opacity: 0;
+      }
+      &:checked {
+        &:after { 
+          opacity: 1;
+        }
+      }
+    }
   }
 
   #app {
