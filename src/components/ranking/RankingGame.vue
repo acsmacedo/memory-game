@@ -62,7 +62,7 @@ export default {
       span {
         display: flex;
         align-items: center;
-        margin: 0 0.5rem;
+        margin: 0 0.75rem;
       }
     }
 

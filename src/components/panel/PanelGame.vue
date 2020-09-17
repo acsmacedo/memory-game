@@ -8,10 +8,10 @@
   export default {
     name: 'PanelGame',
     computed: {
-      ...mapState(['currentGame', 'gameOn', 'validation'])
+      ...mapState(['currentGame', 'validation'])
     },
     methods: {
-      ...mapMutations(['validationChange', 'validationCompare', 'resetFinish']),
+      ...mapMutations(['validationChange', 'validationCompare', 'resetFinish', 'startGame']),
       insertImages() {
         const level = this.currentGame.level;
         const quantity = level === 'easy' ? 8 : level === 'regular' ? 10 : 12;
@@ -28,7 +28,7 @@
           const img = images[color][random];
 
           images[color].splice(random, 1);
-          imgEl.setAttribute('src', `/monster-${img}.jpg`);
+          imgEl.setAttribute('src', `/assets/img/monster-${img}.jpg`);
           imgEl.classList.add(`monster-${img}`);
           spanEl.innerHTML = '<i class="las la-question"></i>';
           divEl.appendChild(spanEl);
@@ -48,9 +48,7 @@
         const img = document.querySelectorAll('img');
 
         img.forEach(el => {
-          el.addEventListener('click', ev => {
-            ev.stopPropagation();
-          })
+          el.addEventListener('click', ev => ev.stopPropagation());
 
           el.parentElement.addEventListener('click', ev => {
             el.parentElement.classList.toggle('invert');
@@ -74,6 +72,7 @@
     },
     mounted() {
       this.insertImages();
+      this.startGame();
     },
     destroyed() {
       this.removeImages();

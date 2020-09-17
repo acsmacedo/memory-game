@@ -16,22 +16,24 @@
 <style lang="scss" scoped>
   .orientation {
     width: 100%;
-    height: 100vh;
+    height: 100%;
+    padding: 2rem;
     position: fixed;
     top: 0;
     left: 0;
-    background-color: var(--background);
     z-index: 100;
-    padding: 2rem;
+    background-color: var(--color);
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     i {
       font-size: 8em;
+      color: var(--background);
       transform: rotate(-90deg);
     }
     h1 {
+      color: var(--background);
       margin-bottom: 2rem;
     }
     @media (orientation: landscape) {

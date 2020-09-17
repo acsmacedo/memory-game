@@ -16,36 +16,10 @@ export default new Vuex.Store({
       lastElement: '',
       finish: false
     },
-    ranking: [
-      /*
-      {user: 'dffsd', level: 'easy', time: 25},
-      
-      {user: 'dffsdfsd', level: 'regular', time: 80},
-      {user: 'dfsfsdfd', level: 'regular', time: 120},
-      {user: 'dfvxcvxcsd', level: 'easy', time: 2665},
-  
-      {user: 'dffsd', level: 'easy', time: 55},
-
-      {user: 'dffsdfsd', level: 'regular', time: 158},
-      {user: 'dfsfsdfd', level: 'regular', time: 1258},
-      {user: 'dfvxcvxcsd', level: 'easy', time: 85},
-      */
-    ],
+    ranking: [],
     rankingView: 'easy'
   },
   getters: {
-    timeMinutes(state) {
-      const time = state.currentGame.time;
-      const s = time % 60;
-      const m = ((time - s) % 3600) / 60;
-      const h = ((time - s - (m * 60)) % 86400) / 3600;
-
-      const s1 = !m && !h ? `${s}s` : s > 0 && s < 10 ? `0${s}s` : s >= 10 ? `${s}s` : h || m ? '00s' : '0s';
-      const m1 = !h && m != 0 ? `${m}m ` : h && m > 0  && m < 10 ? `0${m}m ` : h && m >= 10 ? `${m}m ` : h ? '00m ' : '';
-      const h1 = h != 0 ? `${h}h ` : h > 0  && h < 10 ? `0${h}h ` : h >= 10 ? `${h}h ` : '';
-  
-      return `${h1}${m1}${s1}`;
-    },
     rankingViewTable(state) {
       const table = [...state.ranking];
       const tableLevel = table.filter( item => item.level === state.rankingView);
@@ -54,16 +28,16 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    startGame(state, e) {
+    startGame(state) {
+      state.gameOn = setInterval(() => { state.currentGame.time++ }, 1000);
+    },
+    currentGameChange(state, e) {
       const easy = e.target.easy.checked ? e.target.easy.value : false;
       const regular = e.target.regular.checked ? e.target.regular.value  : false;
       const hard = e.target.hard.checked ? e.target.hard.value  : false;
 
       state.currentGame.user = e.target.user.value;
       state.currentGame.level = easy || regular || hard;
-      state.gameOn = setInterval(() => {
-        state.currentGame.time++
-      }, 1000)
     },
     validationChange(state, e) {
       const isSpan =  e.target.tagName === 'SPAN';
@@ -74,12 +48,9 @@ export default new Vuex.Store({
       const icon = e.target.parentElement.nextElementSibling;
 
       const el = isSpan ? span : isIcon ? icon : div;
+      const cond = state.validation.firstElement;
   
-      if (state.validation.firstElement === '') {
-        state.validation.firstElement = el.className;
-      } else {
-        state.validation.lastElement = el.className;
-      }
+      cond === '' ? state.validation.firstElement = el.className : state.validation.lastElement = el.className;
     },
     validationCompare(state) {
       if (state.validation.firstElement && state.validation.lastElement) {
@@ -89,26 +60,20 @@ export default new Vuex.Store({
         const correct = document.querySelectorAll('.invert').length;
 
         if (state.validation.firstElement === state.validation.lastElement) {
-          first.forEach( el => {
-            el.addEventListener('click', ev => ev.stopPropagation());
-            document.body.classList.add('bingo');
-            setTimeout(() => { document.body.classList.remove('bingo')}, 100);
-          })
+          document.body.classList.add('bingo');
+          setTimeout(() => { document.body.classList.remove('bingo')}, 100);
 
-          if (correct === quantity) { 
-            clearInterval(state.gameOn);
-            state.ranking.push({ user: state.currentGame.user, time: state.currentGame.time, level: state.currentGame.level });
+          if (correct === quantity) {
+            const ranking = state.currentGame;
+            state.ranking.push({ user: ranking.user, time: ranking.time, level: ranking.level });
             state.validation.finish = true;
-            console.log(state);
           }
-
         } else {
           setTimeout(() => {
             first.forEach( el => el.parentElement.classList.remove('invert'));
             last.forEach( el => el.parentElement.classList.remove('invert'));
           }, 700)
         }
-
         state.validation.firstElement = '';
         state.validation.lastElement = '';
       }
@@ -120,10 +85,11 @@ export default new Vuex.Store({
       state.rankingView = 'easy';
     },
     rankingClear(state) {
-      state.ranking = []
+      state.ranking = [];
     },
     resetFinish(state) {
       state.validation.finish = false;
+      clearInterval(state.gameOn);
     },
     loadRanking(state, ranking) {
       state.ranking = ranking;

@@ -1,5 +1,5 @@
 <template>
-  <form class="instructions__form" v-on:submit.prevent="startGame">
+  <form class="instructions__form" v-on:submit.prevent="dispatchStartGame">
     <input type="text" id="user" placeholder="Digite o seu nome..." autocomplete="off" spellcheck="false" required>
     <div class="instructions__form__level">
       <span>
@@ -16,7 +16,7 @@
       </span>    
     </div>
     <div class="instructions__form__links">
-      <button type="submit" v-on:click="dispatchStartGame">Começar</button>
+      <button type="submit">Começar</button>
       <router-link to="/ranking">Ranking</router-link>
     </div>
   </form>
@@ -28,8 +28,9 @@
   export default {
     name: 'InstructionsGameForm',
     methods: {
-      ...mapMutations(['startGame']),
-      dispatchStartGame() {
+      ...mapMutations(['currentGameChange']),
+      dispatchStartGame(ev) {
+        this.currentGameChange(ev);
         this.$router.push('/panel');
       }
     }
@@ -63,7 +64,7 @@
       span {
         display: flex;
         align-items: center;
-        margin: 0 0.5rem;
+        margin: 0 0.75rem;
       }
     }
     
