@@ -117,6 +117,7 @@
       transition: transform 0.6s;
       background-color: var(--disabled);
       backface-visibility: hidden;
+      cursor: pointer;
       i {
         font-size: 2.5em;
         margin-left: 0.1em;
@@ -135,6 +136,7 @@
       transform: rotateY(180deg);
       transition: transform 0.6s;
       overflow: hidden;
+      cursor: not-allowed;
     }
   }
 </style>
