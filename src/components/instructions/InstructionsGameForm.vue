@@ -19,7 +19,9 @@
       <button type="submit">Começar</button>
       <router-link to="/ranking">Ranking</router-link>
     </div>
-  </form>
+    <p>Desenvolvido por <a href="https://github.com/acsmacedo">Anderson Macedo</a></p>
+    <p>Imagens: <a href="https://br.freepik.com/vetores/festa" target="_blank">Festa vetor criado por freepik - br.freepik.com</a></p>
+  </form> 
 </template>
 
 <script>
@@ -70,10 +72,11 @@
     
     &__links {
       display: flex;
+      margin-bottom: 1.5rem;
       button, a { 
         border: 0.0625rem solid var(--color);
         border-radius: 1000rem;
-        padding: 0.5rem 1.5rem 0.6rem 1.5rem;
+        padding: 0.5rem 1.5rem;
         font-size: 0.8em;
         font-weight: 800;
       }
@@ -86,6 +89,10 @@
         color: var(--color);
         margin-left: 1rem;
       }
+    }
+    p {
+      margin-top: 0.15rem;
+      font-size: 0.8em;
     }
   }
 </style>

@@ -102,7 +102,6 @@
       &.invert span {
         transform: rotateY(180deg);
         transition: transform 0.6s;
-        opacity: 0;
       }
     }
     span {
@@ -117,6 +116,7 @@
       transform: rotateY(360deg);
       transition: transform 0.6s;
       background-color: var(--disabled);
+      backface-visibility: hidden;
       i {
         font-size: 2.5em;
         margin-left: 0.1em;
